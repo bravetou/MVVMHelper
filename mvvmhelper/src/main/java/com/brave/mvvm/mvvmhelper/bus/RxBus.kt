@@ -102,7 +102,9 @@ class RxBus {
     companion object {
         @Volatile
         private var mDefaultInstance: RxBus? = null
-        val default: RxBus?
+
+        @JvmStatic
+        val default: RxBus
             get() {
                 if (mDefaultInstance == null) {
                     synchronized(RxBus::class.java) {
@@ -111,7 +113,7 @@ class RxBus {
                         }
                     }
                 }
-                return mDefaultInstance
+                return mDefaultInstance!!
             }
     }
 
