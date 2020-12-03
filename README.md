@@ -6,6 +6,10 @@ MVVM help based on Android ACC
 ---
 ```groovy
 dependencies {
-    implementation 'com.github.bravetou:MVVMHelper:0.0.2'
+    implementation 'com.brave.mvvm.helper:mvvmhelper:0.0.2'
+    // 如果需要使用ViewUtils中的clicks事件请引入一下jar包
+    implementation 'com.jakewharton.rxbinding4:rxbinding:4.0.0'
+    implementation 'com.jakewharton.rxbinding4:rxbinding-core:4.0.0'
+    implementation 'com.jakewharton.rxbinding4:rxbinding-appcompat:4.0.0'
 }
 ```
