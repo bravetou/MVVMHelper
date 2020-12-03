@@ -1,0 +1,94 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    // 编译配置
+    compileSdkVersion androidCompileSdkVersion
+    buildToolsVersion androidBuildToolsVersion
+    defaultConfig {
+        minSdkVersion androidMinSdkVersion
+        targetSdkVersion androidTargetSdkVersion
+        versionCode androidVersionCode
+        versionName androidVersionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+    // 数据绑定
+    dataBinding {
+        enabled true
+    }
+    // 生成BR
+    kapt {
+        generateStubs true
+    }
+    // 配置Java编译版本
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    // 编译
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    testImplementation 'junit:junit:4.13.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    api fileTree(include: ['*.jar'], dir: 'libs')
+    // 防止64K
+    api helperDependencies.multidex
+    // Kotlin核心
+    api helperDependencies.coreKtx
+    // 核心
+    api helperDependencies.appcompat
+    // 弹性布局
+    api helperDependencies.constraintlayout
+    // RecyclerView
+    api helperDependencies.recyclerview
+    // UtilCodeX
+    api helperDependencies.utilcodex
+    // RxJava & RxAndroid
+    api helperDependencies.rxjava
+    api helperDependencies.rxandroid
+    // Rx生命周期管理
+    api helperDependencies.rxlifecycleComponents
+    // RxBinding
+    api helperDependencies.rxbinding
+    api helperDependencies.rxbindingCore
+    api helperDependencies.rxbindingAppcompat
+    // 权限请求
+    api helperDependencies.rxpermissions
+    // 网络请求
+    api helperDependencies.retrofit
+    api helperDependencies.converterGson
+    api helperDependencies.adapterRxjava
+    // 文件下载
+    api helperDependencies.okgo
+    // Gson
+    api helperDependencies.gson
+    // material
+    api helperDependencies.materialDialogsCore
+    api helperDependencies.materialDialogsCommons
+    // 图片加载
+    api helperDependencies.glide
+    annotationProcessor helperDependencies.glideCompiler
+    // 适配ACC
+    api helperDependencies.bindingcollectionadapter
+    api helperDependencies.bindingcollectionadapterViewpager
+    api helperDependencies.bindingcollectionadapterRecyclerview
+    // Google AAC
+    api helperDependencies.lifecycleExtensions
+    annotationProcessor helperDependencies.lifecycleCompiler
+}
+
+apply from: file("gradle-mvn-push.gradle")

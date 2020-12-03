@@ -1,0 +1,60 @@
+<resources>
+
+    <!-- 是否需要获取焦点 -->
+    <attr name="requestFocus"
+        format="boolean" />
+    <!-- 是否需要开启焦点 -->
+    <attr name="isOpenFocusable"
+        format="boolean" />
+    <!-- 焦点发生变化的事件命令 -->
+    <attr name="onFocusChangeCommand"
+        format="reference" />
+    <!-- 是否显示视图 -->
+    <attr name="isVisible"
+        format="boolean" />
+    <!-- 是否隐藏视图 -->
+    <attr name="isGone"
+        format="boolean" />
+    <!-- 是否开启防过快点击 -->
+    <attr name="isThrottleFirst"
+        format="boolean" />
+    <!-- 点击命令 -->
+    <attr name="onClickCommand"
+        format="reference" />
+    <!-- 长按命令 -->
+    <attr name="onLongClickCommand"
+        format="reference" />
+    <!-- 图片路径 -->
+    <attr name="url"
+        format="string" />
+    <!-- 图片加载中占位 -->
+    <attr name="placeholder"
+        format="reference|color" />
+    <!-- 文本改变 -->
+    <attr name="textChanged"
+        format="reference" />
+
+    <!-- View -->
+    <declare-styleable name="View">
+        <attr name="isVisible" />
+        <attr name="isGone" />
+        <attr name="isThrottleFirst" />
+        <attr name="onClickCommand" />
+        <attr name="onLongClickCommand" />
+        <attr name="requestFocus" />
+        <attr name="isOpenFocusable" />
+        <attr name="onFocusChangeCommand" />
+    </declare-styleable>
+
+    <!-- ImageView -->
+    <declare-styleable name="ImageView">
+        <attr name="url" />
+        <attr name="placeholder" />
+    </declare-styleable>
+
+    <!-- TextView -->
+    <declare-styleable name="TextView">
+        <attr name="textChanged" />
+    </declare-styleable>
+
+</resources>

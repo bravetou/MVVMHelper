@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".TestFragment">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.brave.mvvm.helper.TestViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/m_test_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@{viewModel.mTestText}"
+            android:textColor="@android:color/black"
+            android:textSize="32sp" />
+
+    </LinearLayout>
+
+</layout>
