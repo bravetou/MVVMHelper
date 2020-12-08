@@ -69,12 +69,27 @@ object RxSubscriptions {
         }
     }
 
+    /**
+     * 清空指定Class的订阅
+     */
     @JvmStatic
     fun <T> clear(cls: Class<T>?) {
         val key = getKey(cls)
         val disposable = getCompositeDisposable(key)
         maps.remove(key)
         disposable.clear()
+    }
+
+    /**
+     * 清空Map的所有订阅
+     */
+    @JvmStatic
+    fun clear() {
+        maps.forEach {
+            var disposable = getCompositeDisposable(it.key)
+            disposable.clear()
+        }
+        maps.clear()
     }
 
     @JvmStatic

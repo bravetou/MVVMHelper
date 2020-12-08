@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -12,9 +13,11 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import com.blankj.utilcode.util.ToastUtils
 import com.brave.mvvm.mvvmhelper.bus.Messenger
+import com.brave.mvvm.mvvmhelper.utils.ViewUtils.preventRepeatedClicks
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.functions.Consumer
 import java.lang.reflect.ParameterizedType
 
 /**
@@ -31,8 +34,19 @@ import java.lang.reflect.ParameterizedType
  */
 abstract class BaseActivity<V : ViewDataBinding?, VM : BaseViewModel<*>?> :
     RxAppCompatActivity(), IBaseView {
+    // binding
     protected var binding: V? = null
+        private set
+    protected val mBinding: V
+        get() = binding!!
+
+    // viewModel
     protected var viewModel: VM? = null
+        private set
+    protected val mViewModel: VM
+        get() = viewModel!!
+
+    // viewModelId
     private var viewModelId = 0
 
     // 管理RxJava，主要针对RxJava异步操作造成的内存泄漏
@@ -184,5 +198,17 @@ abstract class BaseActivity<V : ViewDataBinding?, VM : BaseViewModel<*>?> :
         var text = obj.toString() + ""
         if (TextUtils.isEmpty(text)) return
         ToastUtils.showLong(text)
+    }
+
+    /**
+     * 添加防止重复点击事件到订阅
+     */
+    @JvmOverloads
+    protected fun View?.addClickSubscribe(
+        consumer: Consumer<Any>?,
+        duration: Long = 1000L,
+    ) {
+        if (null == this) return
+        addSubscribe(this.preventRepeatedClicks(consumer, duration))
     }
 }

@@ -1,8 +1,8 @@
 package com.brave.mvvm.mvvmhelper.utils
 
 import android.view.View
-import com.brave.mvvm.mvvmhelper.utils.RxUtils.schedulersIO
 import com.jakewharton.rxbinding4.view.clicks
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.functions.Consumer
 import java.util.concurrent.TimeUnit
@@ -21,7 +21,8 @@ object ViewUtils {
      * View不占位隐藏
      */
     @JvmStatic
-    fun View.gone() {
+    fun View?.gone() {
+        if (null == this) return
         if (this.visibility != View.GONE) {
             this.visibility = View.GONE
         }
@@ -31,7 +32,8 @@ object ViewUtils {
      * View显示
      */
     @JvmStatic
-    fun View.visible() {
+    fun View?.visible() {
+        if (null == this) return
         if (this.visibility != View.VISIBLE) {
             this.visibility = View.VISIBLE
         }
@@ -41,7 +43,8 @@ object ViewUtils {
      * View占位隐藏
      */
     @JvmStatic
-    fun View.invisible() {
+    fun View?.invisible() {
+        if (null == this) return
         if (this.visibility != View.INVISIBLE) {
             this.visibility = View.INVISIBLE
         }
@@ -52,13 +55,13 @@ object ViewUtils {
      */
     @JvmOverloads
     @JvmStatic
-    fun View.cancelNextFocus(
+    fun View?.cancelNextFocus(
         left: Boolean = true,
         up: Boolean = true,
         right: Boolean = true,
         down: Boolean = true,
     ) {
-        if (null == this.id) return
+        if (null == this) return
         if (left) this.nextFocusLeftId = this.id
         if (up) this.nextFocusUpId = this.id
         if (right) this.nextFocusRightId = this.id
@@ -69,7 +72,8 @@ object ViewUtils {
      * 打开焦点
      */
     @JvmStatic
-    fun View.openFocusable() {
+    fun View?.openFocusable() {
+        if (null == this) return
         this.isFocusable = true
         this.isFocusableInTouchMode = true
     }
@@ -78,7 +82,8 @@ object ViewUtils {
      * 关闭焦点
      */
     @JvmStatic
-    fun View.closeFocusable() {
+    fun View?.closeFocusable() {
+        if (null == this) return
         this.isFocusable = false
         this.isFocusableInTouchMode = false
     }
@@ -90,19 +95,19 @@ object ViewUtils {
      */
     @JvmStatic
     @JvmOverloads
-    fun View.clicks(
+    fun View.preventRepeatedClicks(
         consumer: Consumer<Any>?,
         duration: Long = 1000L,
     ): Disposable {
         return if (null == consumer) {
             this.clicks()
                 .throttleFirst(duration, TimeUnit.MILLISECONDS)
-                .schedulersIO()
-                .subscribe()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {}
         } else {
             this.clicks()
                 .throttleFirst(duration, TimeUnit.MILLISECONDS)
-                .schedulersIO()
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(consumer)
         }
     }

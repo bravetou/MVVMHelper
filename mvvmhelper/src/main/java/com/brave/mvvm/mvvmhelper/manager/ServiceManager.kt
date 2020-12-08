@@ -30,6 +30,9 @@ class ServiceManager private constructor() {
         return Utils.getApp()
     }
 
+    /**
+     * 启动指定服务，可在Intent中携带参数
+     */
     fun start(key: String, value: Intent) {
         var intent = mServiceStack?.get(key)
         if (null == intent) {
@@ -39,10 +42,16 @@ class ServiceManager private constructor() {
         getContext().startService(intent)
     }
 
+    /**
+     * 启动指定服务，无参
+     */
     fun start(key: String, cls: Class<*>) {
         start(key, Intent(getContext(), cls))
     }
 
+    /**
+     * 移除并停止指定的服务
+     */
     fun stop(key: String) {
         var intent = mServiceStack?.get(key)
         if (null != intent) {
@@ -51,6 +60,9 @@ class ServiceManager private constructor() {
         }
     }
 
+    /**
+     * 清空并停止所有服务
+     */
     fun clear() {
         mServiceStack?.forEach {
             var intent = mServiceStack?.get(it.key)
