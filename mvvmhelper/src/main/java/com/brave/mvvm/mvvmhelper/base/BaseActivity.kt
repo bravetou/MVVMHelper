@@ -186,9 +186,7 @@ abstract class BaseActivity<V : ViewDataBinding?, VM : BaseViewModel<*>?> :
      * 初始化ViewModel
      * @return 继承BaseViewModel的ViewModel
      */
-    open fun initViewModel(): VM? {
-        return null
-    }
+    abstract fun initViewModel(): VM?
 
     override fun initData() {}
 

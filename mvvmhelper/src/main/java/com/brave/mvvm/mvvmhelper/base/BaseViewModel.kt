@@ -22,10 +22,15 @@ import java.lang.ref.WeakReference
  * ***desc***       ：ViewModel基类（若不使用[BaseActivity.initViewModel]创建ViewModel,
  * 则继承至[BaseViewModel]时,必须重写[BaseViewModel]只带 application参数的构造方法）
  */
-abstract class BaseViewModel<M : BaseModel?> @JvmOverloads constructor(
-    application: Application,
-    protected var model: M? = null,
-) : AndroidViewModel(application), IBaseViewModel, Consumer<Disposable?> {
+abstract class BaseViewModel<M : BaseModel?> : AndroidViewModel, IBaseViewModel,
+    Consumer<Disposable?> {
+    protected var model: M? = null
+
+    constructor(application: Application) : super(application)
+    constructor(application: Application, model: M?) : super(application) {
+        this.model = model
+    }
+
     // 弱引用持有
     private var lifecycle: WeakReference<LifecycleProvider<*>>? = null
 
