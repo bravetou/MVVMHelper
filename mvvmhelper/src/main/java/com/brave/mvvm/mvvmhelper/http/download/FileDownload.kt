@@ -119,7 +119,7 @@ class FileDownload {
                     message.downloadState = 0
                     message.downloadProgress = 0.00
                     // 发送开始下载消息
-                    RxBus.default?.post(message)
+                    RxBus.default.post(message)
                     // println("onStart => ${Gson().toJson(message)}")
                 }
 
@@ -138,14 +138,14 @@ class FileDownload {
                         message.getCompleteFilesPath(),
                     )
                     // 发送下载成功消息
-                    RxBus.default?.post(message)
+                    RxBus.default.post(message)
                     // println("onSuccess => ${Gson().toJson(message)}")
                 }
 
                 override fun onError(response: Response<File>?) {
                     message.downloadState = -1
                     // 发送下载失败消息
-                    RxBus.default?.post(message)
+                    RxBus.default.post(message)
                     // println("onError => ${Gson().toJson(message)}")
                 }
             })

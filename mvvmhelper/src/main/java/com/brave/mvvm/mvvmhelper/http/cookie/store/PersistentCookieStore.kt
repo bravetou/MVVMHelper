@@ -52,7 +52,8 @@ class PersistentCookieStore(context: Context) : CookieStore {
         if (!cookies.containsKey(url!!.host())) {
             cookies[url.host()] = ConcurrentHashMap()
         }
-        for (cookie in urlCookies!!) {
+        if (null == urlCookies) return
+        for (cookie in urlCookies) {
             // 当前cookie是否过期
             if (isCookieExpired(cookie)) {
                 removeCookie(url, cookie)
@@ -86,8 +87,10 @@ class PersistentCookieStore(context: Context) : CookieStore {
         // 文件缓存
         val prefsWriter = cookiePrefs.edit()
         prefsWriter.putString(url.host(), TextUtils.join(",", cookies[url.host()]!!.keys))
-        prefsWriter.putString(COOKIE_NAME_PREFIX + name,
-            encodeCookie(SerializableHttpCookie(cookie)))
+        prefsWriter.putString(
+            COOKIE_NAME_PREFIX + name,
+            encodeCookie(SerializableHttpCookie(cookie))
+        )
         prefsWriter.apply()
     }
 
@@ -220,8 +223,10 @@ class PersistentCookieStore(context: Context) : CookieStore {
         val data = ByteArray(len / 2)
         var i = 0
         while (i < len) {
-            data[i / 2] = ((Character.digit(hexString[i],
-                16) shl 4) + Character.digit(hexString[i + 1], 16)).toByte()
+            data[i / 2] = ((Character.digit(
+                hexString[i],
+                16
+            ) shl 4) + Character.digit(hexString[i + 1], 16)).toByte()
             i += 2
         }
         return data

@@ -18,9 +18,11 @@ class MemoryCookieStore : CookieStore {
 
     @Synchronized
     override fun saveCookie(url: HttpUrl?, cookies: List<Cookie?>?) {
-        val oldCookies = memoryCookies[url!!.host()]
+        if (null == url) return
+        val oldCookies = memoryCookies[url.host()]
         val needRemove: MutableList<Cookie?> = ArrayList()
-        for (newCookie in cookies!!) {
+        if (null == cookies) return
+        for (newCookie in cookies) {
             for (oldCookie in oldCookies!!) {
                 if (newCookie!!.name() == oldCookie!!.name()) {
                     needRemove.add(oldCookie)

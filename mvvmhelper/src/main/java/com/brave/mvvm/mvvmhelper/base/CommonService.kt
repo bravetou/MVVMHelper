@@ -24,13 +24,13 @@ abstract class CommonService : Service() {
     // 添加订阅
     protected fun addDisposable(mDisposable: Disposable?) {
         if (null != mDisposable) {
-            mCompositeDisposable?.add(mDisposable)
+            mCompositeDisposable.add(mDisposable)
         }
     }
 
     // 销毁所有订阅
     protected fun clearDisposable() {
-        mCompositeDisposable?.clear()
+        mCompositeDisposable.clear()
     }
 
     // 销毁

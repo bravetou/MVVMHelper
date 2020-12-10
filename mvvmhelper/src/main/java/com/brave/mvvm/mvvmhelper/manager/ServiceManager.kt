@@ -34,10 +34,10 @@ class ServiceManager private constructor() {
      * 启动指定服务，可在Intent中携带参数
      */
     fun start(key: String, value: Intent) {
-        var intent = mServiceStack?.get(key)
+        var intent = mServiceStack[key]
         if (null == intent) {
             intent = value
-            mServiceStack?.put(key, value)
+            mServiceStack[key] = value
         }
         getContext().startService(intent)
     }
@@ -53,7 +53,7 @@ class ServiceManager private constructor() {
      * 移除并停止指定的服务
      */
     fun stop(key: String) {
-        var intent = mServiceStack?.get(key)
+        var intent = mServiceStack[key]
         if (null != intent) {
             getContext().stopService(intent)
             mServiceStack.remove(key)
@@ -64,12 +64,12 @@ class ServiceManager private constructor() {
      * 清空并停止所有服务
      */
     fun clear() {
-        mServiceStack?.forEach {
-            var intent = mServiceStack?.get(it.key)
+        mServiceStack.forEach {
+            var intent = mServiceStack[it.key]
             if (null != intent) {
                 getContext().stopService(intent)
             }
         }
-        mServiceStack?.clear()
+        mServiceStack.clear()
     }
 }

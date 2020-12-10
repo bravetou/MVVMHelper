@@ -74,7 +74,7 @@ abstract class BaseFragment<V : ViewDataBinding?, VM : BaseViewModel<*>?>
         savedInstanceState: Bundle?,
     ): View? {
         binding = DataBindingUtil.inflate(
-            inflater!!,
+            inflater,
             initContentView(inflater, container, savedInstanceState),
             container,
             false
@@ -167,7 +167,7 @@ abstract class BaseFragment<V : ViewDataBinding?, VM : BaseViewModel<*>?>
     @JvmOverloads
     fun <T : Any> getArgumentsParam(key: String, default: T? = null): T? {
         var bundle = arguments ?: return null
-        var param = bundle?.get(key) ?: null
+        var param = bundle.get(key)
         return if (null != default) {
             if (null == param) default
             else param as T

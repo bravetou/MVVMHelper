@@ -24,10 +24,10 @@ class DownloadService : CommonService() {
 
     override fun onDestroy() {
         super.onDestroy()
-        mDownloadMap?.forEach {
+        mDownloadMap.forEach {
             OkGo.getInstance().cancelTag(it.key)
         }
-        mDownloadMap?.clear()
+        mDownloadMap.clear()
     }
 
     companion object {
@@ -92,11 +92,11 @@ class DownloadService : CommonService() {
             message.downloadState = 1
             message.downloadProgress = 100.00
             // 发送下载成功消息
-            RxBus.default?.post(message)
+            RxBus.default.post(message)
             return
         }
 
-        message?.downloadPath?.let {
+        message.downloadPath?.let {
             // 把下载消息存入下载Map中
             mDownloadMap[it] = message
 

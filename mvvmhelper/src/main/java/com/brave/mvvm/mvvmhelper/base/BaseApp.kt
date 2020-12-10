@@ -77,7 +77,7 @@ abstract class BaseApp : Application() {
     open fun exitApp() {
         AppUtils.exitApp()
         Process.killProcess(Process.myPid())
-        exitProcess(0)
         System.gc()
+        exitProcess(0)
     }
 }
