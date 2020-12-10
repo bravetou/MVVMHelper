@@ -20,12 +20,18 @@ import kotlin.system.exitProcess
 abstract class BaseApp : Application() {
     // 伴生函数
     companion object {
-        private const val TAG = "BaseApp"
-
         @JvmStatic
         @Volatile
-        var app: BaseApp? = null
-            private set
+        private var app: BaseApp? = null
+
+        @JvmStatic
+        val default: BaseApp
+            get() {
+                if (null == app) {
+                    throw RuntimeException("The application is not initialized")
+                }
+                return app!!
+            }
     }
 
     /////////////////////////////////////////////////////////////////////////////////

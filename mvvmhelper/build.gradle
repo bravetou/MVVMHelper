@@ -29,6 +29,13 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    lintOptions {
+        textReport true
+        textOutput 'stdout'
+    }
     // 编译
     buildTypes {
         release {
@@ -44,7 +51,6 @@ dependencies {
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    api fileTree(include: ['*.jar'], dir: 'libs')
     // 防止64K
     api helperDependencies.multidex
     // Kotlin核心
