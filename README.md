@@ -6,7 +6,7 @@ MVVM help based on Android ACC
 ---
 ```groovy
 dependencies {
-    implementation 'com.brave.mvvm.helper:mvvmhelper:0.0.5'
+    implementation 'com.brave.mvvm.helper:mvvmhelper:0.0.6'
 }
 ```
 

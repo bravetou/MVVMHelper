@@ -47,15 +47,12 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    testImplementation 'junit:junit:4.13.1'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    api fileTree(dir: "libs", include: ["*.jar"])
     // 防止64K
     api helperDependencies.multidex
     // Kotlin核心
-    api helperDependencies.coreKtx
+    implementation helperDependencies.coreKtx
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     // 核心
     api helperDependencies.appcompat
     // 弹性布局
@@ -88,14 +85,14 @@ dependencies {
     api helperDependencies.materialDialogsCommons
     // 图片加载
     api helperDependencies.glide
-    annotationProcessor helperDependencies.glideCompiler
+    kapt helperDependencies.glideCompiler
     // 适配ACC
     api helperDependencies.bindingcollectionadapter
     api helperDependencies.bindingcollectionadapterViewpager
     api helperDependencies.bindingcollectionadapterRecyclerview
     // Google AAC
     api helperDependencies.lifecycleExtensions
-    annotationProcessor helperDependencies.lifecycleCompiler
+    kapt helperDependencies.lifecycleCompiler
 }
 
 apply from: file("gradle-mvn-push.gradle")
