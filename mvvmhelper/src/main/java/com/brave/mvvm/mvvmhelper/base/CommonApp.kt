@@ -17,15 +17,15 @@ import kotlin.system.exitProcess
  *
  * ***desc***       ：App基类
  */
-abstract class BaseApp : Application() {
+abstract class CommonApp : Application() {
     // 伴生函数
     companion object {
         @JvmStatic
         @Volatile
-        private var app: BaseApp? = null
+        private var app: CommonApp? = null
 
         @JvmStatic
-        val default: BaseApp
+        val default: CommonApp
             get() {
                 if (null == app) {
                     throw RuntimeException("The application is not initialized")

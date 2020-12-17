@@ -1,6 +1,6 @@
 package com.brave.mvvm.helper
 
-import com.brave.mvvm.mvvmhelper.base.BaseModel
+import com.brave.mvvm.mvvmhelper.base.CommonModel
 
-class HttpDataModel : BaseModel() {
+class HttpDataModel : CommonModel() {
 }

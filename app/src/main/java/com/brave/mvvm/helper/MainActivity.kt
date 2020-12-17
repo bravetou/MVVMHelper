@@ -2,14 +2,14 @@ package com.brave.mvvm.helper
 
 import android.os.Bundle
 import com.brave.mvvm.helper.databinding.ActivityMainBinding
-import com.brave.mvvm.mvvmhelper.base.BaseActivity
+import com.brave.mvvm.mvvmhelper.base.CommonActivity
 import com.brave.mvvm.mvvmhelper.http.download.DownloadService
 import com.brave.mvvm.mvvmhelper.utils.RxUtils.schedulersIO
 import io.reactivex.rxjava3.core.Observable
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
+class MainActivity : CommonActivity<ActivityMainBinding, MainViewModel>() {
     override fun initContentView(savedInstanceState: Bundle?): Int {
         return R.layout.activity_main
     }

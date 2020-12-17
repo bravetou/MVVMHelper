@@ -1,10 +1,10 @@
 package com.brave.mvvm.helper
 
 import android.app.Application
-import com.brave.mvvm.mvvmhelper.base.BaseModel
-import com.brave.mvvm.mvvmhelper.base.BaseViewModel
+import com.brave.mvvm.mvvmhelper.base.CommonModel
+import com.brave.mvvm.mvvmhelper.base.CommonViewModel
 
-class MyTestViewModel : BaseViewModel<BaseModel> {
+class MyTestViewModel : CommonViewModel<CommonModel> {
     constructor(application: Application) : super(application)
-    constructor(application: Application, model: BaseModel?) : super(application, model)
+    constructor(application: Application, model: CommonModel?) : super(application, model)
 }

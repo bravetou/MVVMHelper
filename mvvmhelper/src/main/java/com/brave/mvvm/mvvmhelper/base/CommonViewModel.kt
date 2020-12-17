@@ -19,10 +19,10 @@ import java.lang.ref.WeakReference
  *
  * ***time***       ：2020/12/1 11:16
  *
- * ***desc***       ：ViewModel基类（若不使用[BaseActivity.initViewModel]创建ViewModel,
- * 则继承至[BaseViewModel]时,必须重写[BaseViewModel]只带 application参数的构造方法）
+ * ***desc***       ：ViewModel基类（若不使用[CommonActivity.initViewModel]创建ViewModel,
+ * 则继承至[CommonViewModel]时,必须重写[CommonViewModel]只带 application参数的构造方法）
  */
-abstract class BaseViewModel<M : BaseModel?> : AndroidViewModel, IBaseViewModel,
+abstract class CommonViewModel<M : CommonModel?> : AndroidViewModel, IBaseViewModel,
     Consumer<Disposable?> {
     protected var model: M? = null
 

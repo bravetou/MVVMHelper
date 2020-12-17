@@ -1,20 +1,20 @@
 package com.brave.mvvm.mvvmhelper.base
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import com.blankj.utilcode.util.ToastUtils
 import com.brave.mvvm.mvvmhelper.bus.Messenger
 import com.brave.mvvm.mvvmhelper.utils.ViewUtils.preventRepeatedClicks
-import com.trello.rxlifecycle4.components.support.RxFragment
+import com.trello.rxlifecycle4.components.support.RxAppCompatActivity
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.functions.Consumer
@@ -25,15 +25,15 @@ import java.lang.reflect.ParameterizedType
  *
  * ***blog***       ：https://blog.csdn.net/bravetou
  *
- * ***time***       ：2020/12/1 18:04
+ * ***time***       ：2020/12/1 15:25
  *
- * ***desc***       ：一个拥有DataBinding框架的基Fragment,
- * 这里根据项目业务可以换成你自己熟悉的BaseFragment,
- * 但是需要继承RxFragment,
+ * ***desc***       ：一个拥有DataBinding框架的基Activity,
+ * 这里根据项目业务可以换成你自己熟悉的BaseActivity,
+ * 但是需要继承RxAppCompatActivity,
  * 方便LifecycleProvider管理生命周期
  */
-abstract class BaseFragment<V : ViewDataBinding?, VM : BaseViewModel<*>?>
-    : RxFragment(), IBaseView {
+abstract class CommonActivity<V : ViewDataBinding?, VM : CommonViewModel<*>?> :
+    RxAppCompatActivity(), IBaseView {
     // binding
     protected var binding: V? = null
         private set
@@ -59,31 +59,28 @@ abstract class BaseFragment<V : ViewDataBinding?, VM : BaseViewModel<*>?>
         mCompositeDisposable!!.add(disposable)
     }
 
+    protected val context: Context
+        get() = this
+
+    protected val activity: FragmentActivity
+        get() = this
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // 页面接受的参数方法
         initParam()
+        // 私有的初始化Databinding和ViewModel方法
+        initViewDataBinding(savedInstanceState)
+        // 页面数据初始化方法
+        initData()
+        // 页面事件监听的方法，一般用于ViewModel层转到View层的事件注册
+        initViewObservable()
+        // 注册RxBus
+        viewModel!!.registerRxBus()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
-        binding = DataBindingUtil.inflate(
-            inflater,
-            initContentView(inflater, container, savedInstanceState),
-            container,
-            false
-        )
-        return binding!!.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
         // 取消所有异步任务
         mCompositeDisposable?.clear()
         // 解除Messenger注册
@@ -96,22 +93,13 @@ abstract class BaseFragment<V : ViewDataBinding?, VM : BaseViewModel<*>?>
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        // 私有的初始化Databinding和ViewModel方法
-        initViewDataBinding()
-        // 页面数据初始化方法
-        initData()
-        // 页面事件监听的方法，一般用于ViewModel层转到View层的事件注册
-        initViewObservable()
-        // 注册RxBus
-        viewModel!!.registerRxBus()
-    }
-
     /**
      * 注入绑定
      */
-    private fun initViewDataBinding() {
+    private fun initViewDataBinding(savedInstanceState: Bundle?) {
+        // DataBindingUtil类需要在project的build中配置 dataBinding {enabled true }
+        // 同步后会自动关联android.databinding包
+        binding = DataBindingUtil.setContentView(this, initContentView(savedInstanceState))
         viewModelId = initVariableId()
         viewModel = initViewModel()
         if (null == viewModel) {
@@ -121,10 +109,11 @@ abstract class BaseFragment<V : ViewDataBinding?, VM : BaseViewModel<*>?>
             } else {
                 // 如果没有指定泛型参数
                 // 则默认使用BaseViewModel
-                BaseViewModel::class.java
+                CommonViewModel::class.java
             }
             viewModel = ViewModelProvider(this).get(modelClass as Class<VM>)
         }
+        // 关联ViewModel
         binding!!.setVariable(viewModelId, viewModel)
         // 支持LiveData绑定xml，数据改变，UI自动会更新
         binding!!.lifecycleOwner = this
@@ -150,7 +139,7 @@ abstract class BaseFragment<V : ViewDataBinding?, VM : BaseViewModel<*>?>
      */
     @JvmOverloads
     fun <AC : Activity> startActivity(clz: Class<AC>, bundle: Bundle? = null) {
-        var intent = Intent(activity, clz)
+        var intent = Intent(this, clz)
         if (null != bundle) {
             intent.putExtra("bundle", bundle)
         }
@@ -165,9 +154,10 @@ abstract class BaseFragment<V : ViewDataBinding?, VM : BaseViewModel<*>?>
      * @return T
      */
     @JvmOverloads
-    fun <T : Any> getArgumentsParam(key: String, default: T? = null): T? {
-        var bundle = arguments ?: return null
-        var param = bundle.get(key)
+    fun <T : Any> getPageParam(key: String, default: T? = null): T? {
+        var bundle: Bundle? = intent?.getBundleExtra("bundle")
+            ?: return null
+        var param = bundle?.get(key)
         return if (null != default) {
             if (null == param) default
             else param as T
@@ -184,11 +174,7 @@ abstract class BaseFragment<V : ViewDataBinding?, VM : BaseViewModel<*>?>
      * @return 布局layout的id
      */
     @LayoutRes
-    abstract fun initContentView(
-        inflater: LayoutInflater?,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): Int
+    abstract fun initContentView(savedInstanceState: Bundle?): Int
 
     /**
      * 初始化ViewModel的id

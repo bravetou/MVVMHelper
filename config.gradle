@@ -6,8 +6,8 @@ ext {
     androidBuildToolsVersion = "30.0.2"
     androidMinSdkVersion = 19
     androidTargetSdkVersion = 30
-    androidVersionCode = 6
-    androidVersionName = "0.0.6"
+    androidVersionCode = 7
+    androidVersionName = "0.0.7"
 
     // 当前时间
     def currentTime = new Date().format('MMdd-HH-mm')

@@ -9,6 +9,6 @@ package com.brave.mvvm.mvvmhelper.base
  *
  * ***desc***       ：Model基类
  */
-abstract class BaseModel : IModel {
+abstract class CommonModel : IModel {
     override fun onCleared() {}
 }

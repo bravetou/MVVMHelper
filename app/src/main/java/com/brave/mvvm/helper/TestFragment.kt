@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.brave.mvvm.helper.databinding.FragmentTestBinding
-import com.brave.mvvm.mvvmhelper.base.BaseFragment
+import com.brave.mvvm.mvvmhelper.base.CommonFragment
 
-class TestFragment : BaseFragment<FragmentTestBinding, TestViewModel>() {
+class TestFragment : CommonFragment<FragmentTestBinding, TestViewModel>() {
     override fun initContentView(
         inflater: LayoutInflater?,
         container: ViewGroup?,
