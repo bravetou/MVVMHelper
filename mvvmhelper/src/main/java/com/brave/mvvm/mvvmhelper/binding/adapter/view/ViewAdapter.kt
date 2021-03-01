@@ -73,6 +73,16 @@ object ViewAdapter {
     }
 
     /**
+     * view的选中
+     */
+    @JvmStatic
+    @BindingAdapter(value = ["isSelected"], requireAll = true)
+    fun isSelected(view: View?, isSelected: Boolean) {
+        if (null == view) return
+        view.isSelected = isSelected
+    }
+
+    /**
      * view的隐藏显示
      */
     @JvmStatic

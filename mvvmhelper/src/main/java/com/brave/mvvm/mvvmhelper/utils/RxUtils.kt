@@ -21,7 +21,7 @@ object RxUtils {
      * Schedulers.io( )默认是一个CachedThreadScheduler，很像一个有线程缓存的新线程调度器
      */
     @JvmStatic
-    fun <@io.reactivex.rxjava3.annotations.NonNull T : Any>
+    fun <T>
             Observable<T>.schedulersIO(): Observable<T> {
         return this.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -33,7 +33,7 @@ object RxUtils {
      * 默认线程数等于处理器的数量
      */
     @JvmStatic
-    fun <@io.reactivex.rxjava3.annotations.NonNull T : Any>
+    fun <T>
             Observable<T>.schedulersComputation(): Observable<T> {
         return this.subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
@@ -44,7 +44,7 @@ object RxUtils {
      * 为每个任务创建一个新线程
      */
     @JvmStatic
-    fun <@io.reactivex.rxjava3.annotations.NonNull T : Any>
+    fun <T>
             Observable<T>.schedulersNewThread(): Observable<T> {
         return this.subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
@@ -55,7 +55,7 @@ object RxUtils {
      * 在当前线程排队开始执行
      */
     @JvmStatic
-    fun <@io.reactivex.rxjava3.annotations.NonNull T : Any>
+    fun <T>
             Observable<T>.schedulersTrampoline(): Observable<T> {
         return this.subscribeOn(Schedulers.trampoline())
             .observeOn(AndroidSchedulers.mainThread())

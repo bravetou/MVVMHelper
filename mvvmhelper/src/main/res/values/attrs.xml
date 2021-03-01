@@ -9,6 +9,9 @@
     <!-- 焦点发生变化的事件命令 -->
     <attr name="onFocusChangeCommand"
         format="reference" />
+    <!-- 是否选中 -->
+    <attr name="isSelected"
+        format="boolean" />
     <!-- 是否显示视图 -->
     <attr name="isVisible"
         format="boolean" />
@@ -36,6 +39,7 @@
 
     <!-- View -->
     <declare-styleable name="View">
+        <attr name="isSelected" />
         <attr name="isVisible" />
         <attr name="isGone" />
         <attr name="isThrottleFirst" />
