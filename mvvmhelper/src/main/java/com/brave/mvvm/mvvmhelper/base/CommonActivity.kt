@@ -99,7 +99,7 @@ abstract class CommonActivity<V : ViewDataBinding?, VM : CommonViewModel<*>?> :
     private fun initViewDataBinding(savedInstanceState: Bundle?) {
         // DataBindingUtil类需要在project的build中配置 dataBinding {enabled true }
         // 同步后会自动关联android.databinding包
-        binding = DataBindingUtil.setContentView(this, initContentView(savedInstanceState))
+        binding = DataBindingUtil.setContentView<V>(this, initContentView(savedInstanceState))
         viewModelId = initVariableId()
         viewModel = initViewModel()
         if (null == viewModel) {

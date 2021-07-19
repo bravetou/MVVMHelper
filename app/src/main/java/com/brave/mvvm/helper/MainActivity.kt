@@ -18,6 +18,10 @@ class MainActivity : CommonActivity<ActivityMainBinding, MainViewModel>() {
         return BR.viewModel
     }
 
+    override fun initViewModel(): MainViewModel? {
+        TODO("Not yet implemented")
+    }
+
     private var testFragment: TestFragment? = null
 
     override fun initData() {

@@ -73,7 +73,7 @@ abstract class CommonFragment<V : ViewDataBinding?, VM : CommonViewModel<*>?>
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        binding = DataBindingUtil.inflate(
+        binding = DataBindingUtil.inflate<V>(
             inflater,
             initContentView(inflater, container, savedInstanceState),
             container,

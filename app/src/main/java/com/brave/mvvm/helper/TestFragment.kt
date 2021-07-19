@@ -34,4 +34,8 @@ class TestFragment : CommonFragment<FragmentTestBinding, TestViewModel>() {
             flag++
         }
     }
+
+    override fun initViewModel(): TestViewModel? {
+        TODO("Not yet implemented")
+    }
 }
